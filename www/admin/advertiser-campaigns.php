@@ -122,10 +122,10 @@ foreach ($aCampaigns as $campaignId => $aCampaign) {
         $oTz = $oActivateDate->tz;
         $oActivateDate->setTZbyID('UTC');
         $oActivateDate->convertTZ($oTz);
-        $aCampaign['activate']  = $oActivateDate->format($date_format);
+        $aCampaign['activate'] = $oActivateDate->format($date_format);
     }
     else {
-        $aCampaign['activate']  = '-';
+        $aCampaign['activate'] = '-';
     }
 
     if (!empty($aCampaign['expire_time'])) {
@@ -133,11 +133,19 @@ foreach ($aCampaigns as $campaignId => $aCampaign) {
         $oTz = $oExpireDate->tz;
         $oExpireDate->setTZbyID('UTC');
         $oExpireDate->convertTZ($oTz);
-        $aCampaign['expire']    = $oExpireDate->format($date_format);
+        $aCampaign['expire'] = $oExpireDate->format($date_format);
     }
     else {
-        $aCampaign['expire']    = '-';
+        $aCampaign['expire'] = '-';
     }
+    
+    if (!empty($aCampaign['updated'])) {
+        $oUpdatedDate = new Date($aCampaign['updated']);
+        $oTz = $oUpdatedDate->tz;
+        $oUpdatedDate->setTZbyID('UTC');
+        $oUpdatedDate->convertTZ($oTz);
+        $aCampaign['updated'] = $oUpdatedDate->format("$date_format $time_format");
+    }    
 
     if ($aCampaign['type'] == DataObjects_Campaigns::CAMPAIGN_TYPE_MARKET_CONTRACT) {
         $aCampaign['system'] = true;
