@@ -157,6 +157,7 @@ $doBanners = OA_Dal::factoryDO('banners');
 $doBanners->campaignid = $campaignid;
 $doBanners->addListorderBy($listorder, $orderdirection);
 $doBanners->selectAdd('storagetype AS type');
+$doBanners->selectAdd('updated AS updated');
 $doBanners->find();
 
 $countActive = 0;
@@ -187,6 +188,14 @@ while ($doBanners->fetch() && $row = $doBanners->toArray()) {
         $bannerCode = '';
     }
     $banners[$row['bannerid']]['preview'] = $bannerCode;
+
+    if (!empty($row['updated'])) {
+        $oUpdatedDate = new Date($row['updated']);
+        $oTz = $oUpdatedDate->tz;
+        $oUpdatedDate->setTZbyID('UTC');
+        $oUpdatedDate->convertTZ($oTz);
+        $banners[$row['bannerid']]['updated'] = $oUpdatedDate->format("$date_format $time_format");
+    }
 }
 
 $aCount = array(
