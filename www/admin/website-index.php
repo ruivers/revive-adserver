@@ -64,6 +64,18 @@ $oTpl = new OA_Admin_Template('website-index.html');
 $dalAffiliates = OA_Dal::factoryDAL('affiliates');
 $aWebsitesZones = $dalAffiliates->getWebsitesAndZonesByAgencyId();
 
+if (!empty($aWebsitesZones)) {
+    foreach ($aWebsitesZones as $wkey => $aWebsite) {
+        if (!empty($aWebsite['updated'])) {
+            $oUpdatedDate = new Date($aWebsite['updated']);
+            $oTz = $oUpdatedDate->tz;
+            $oUpdatedDate->setTZbyID('UTC');
+            $oUpdatedDate->convertTZ($oTz);
+            $aWebsitesZones[$wkey]['updated'] = $oUpdatedDate->format("$date_format $time_format");
+        }
+    }
+}
+
 $itemsPerPage = 250;
 $oPager = OX_buildPager($aWebsitesZones, $itemsPerPage);
 $oTopPager = OX_buildPager($aWebsitesZones, $itemsPerPage, false);
