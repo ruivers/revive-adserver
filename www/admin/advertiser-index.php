@@ -110,14 +110,25 @@ elseif (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
     }
 }
 
+if (!empty($clients)) {
+    foreach ($clients as $ckey => $client) {
+        if (!empty($client['updated'])) {
+            $oUpdatedDate = new Date($client['updated']);
+            $oTz = $oUpdatedDate->tz;
+            $oUpdatedDate->setTZbyID('UTC');
+            $oUpdatedDate->convertTZ($oTz);
+            $client['updated'] = $oUpdatedDate->format("$date_format $time_format");
+        }
+    }
+}
+
 $aCount = array(
     'advertisers'        => count($clients),
     'advertisers_hidden' => 0
 );
 
 
-if ($hideinactive && !empty($clients) && !empty($campaigns) &&
-    !empty($banners)) {
+if ($hideinactive && !empty($clients) && !empty($campaigns) && !empty($banners)) {
 
     // Build Tree
     foreach ($banners as $bkey => $banner) {

@@ -73,7 +73,9 @@ class OA_Admin_Template extends Smarty
         $this->register_function('ox_zone_size', array('OA_Admin_Template',  '_function_ox_zone_size'));
         $this->register_function('ox_zone_icon', array('OA_Admin_Template',  '_function_ox_zone_icon'));
         $this->register_function('ox_tracker_type', array('OA_Admin_Template',  '_function_ox_tracker_type'));
+
         $this->register_function('ox_entity_id', array('OA_Admin_Template',  '_function_ox_entity_id'));
+        $this->register_function('ox_entity_updated', array('OA_Admin_Template',  '_function_ox_entity_updated'));
 
         $this->register_function('boldSearchPhrase', array('OA_Admin_Template', '_function_boldSearchPhrase'));
 
@@ -859,6 +861,16 @@ class OA_Admin_Template extends Smarty
                 $this->_function_t(array('str' => 'ID'), $smarty) . ': ' . $id . '">[' . $id . ']</small>';
         } else {
             return '';
+        }
+    }
+
+    function _function_ox_entity_updated($aParams, &$smarty)
+    {
+        if (isset($aParams['updated'])) {
+            $updated = $aParams['updated'];
+            return "<span class='entity-updated'>".trim($updated). "</span>";
+        } else {
+            $smarty->trigger_error("t: missing 'updated' parameter");
         }
     }
 
