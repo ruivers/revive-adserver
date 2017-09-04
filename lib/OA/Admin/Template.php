@@ -64,8 +64,9 @@ class OA_Admin_Template extends Smarty
 
         $this->register_function('ox_column_title', array('OA_Admin_Template',  '_function_ox_column_title'));
         $this->register_function('ox_column_class', array('OA_Admin_Template',  '_function_ox_column_class'));
+        $this->register_function('ox_column_updated', array('OA_Admin_Template',  '_function_ox_column_updated'));
+
         $this->register_function('ox_campaign_type', array('OA_Admin_Template',  '_function_ox_campaign_type'));
-        $this->register_function('ox_campaign_updated', array('OA_Admin_Template',  '_function_ox_campaign_updated'));
         $this->register_function('ox_campaign_status', array('OA_Admin_Template',  '_function_ox_campaign_status'));
         $this->register_function('ox_campaign_icon', array('OA_Admin_Template',  '_function_ox_campaign_icon'));
         $this->register_function('ox_banner_size', array('OA_Admin_Template',  '_function_ox_banner_size'));
@@ -75,7 +76,6 @@ class OA_Admin_Template extends Smarty
         $this->register_function('ox_tracker_type', array('OA_Admin_Template',  '_function_ox_tracker_type'));
 
         $this->register_function('ox_entity_id', array('OA_Admin_Template',  '_function_ox_entity_id'));
-        $this->register_function('ox_entity_updated', array('OA_Admin_Template',  '_function_ox_entity_updated'));
 
         $this->register_function('boldSearchPhrase', array('OA_Admin_Template', '_function_boldSearchPhrase'));
 
@@ -443,6 +443,16 @@ class OA_Admin_Template extends Smarty
         }
     }
 
+    function _function_ox_column_updated($aParams, &$smarty)
+    {
+        if (isset($aParams['updated'])) {
+            $updated = $aParams['updated'];
+            return "<span class='updated'>".trim($updated). "</span>";
+        } else {
+            $smarty->trigger_error("t: missing 'updated' parameter");
+        }
+    }
+
     function _function_ox_banner_size($aParams, &$smarty)
     {
         global $phpAds_IAB;
@@ -577,16 +587,6 @@ class OA_Admin_Template extends Smarty
             return "<span class='campaign-type campaign-contract'>".$type. "</span>";
         } else {
             $smarty->trigger_error("t: missing 'type' parameter");
-        }
-    }
-
-    function _function_ox_campaign_updated($aParams, &$smarty)
-    {
-        if (isset($aParams['updated'])) {
-            $updated = $aParams['updated'];
-            return "<span class='campaign-updated'>".trim($updated). "</span>";
-        } else {
-            $smarty->trigger_error("t: missing 'updated' parameter");
         }
     }
 
@@ -861,16 +861,6 @@ class OA_Admin_Template extends Smarty
                 $this->_function_t(array('str' => 'ID'), $smarty) . ': ' . $id . '">[' . $id . ']</small>';
         } else {
             return '';
-        }
-    }
-
-    function _function_ox_entity_updated($aParams, &$smarty)
-    {
-        if (isset($aParams['updated'])) {
-            $updated = $aParams['updated'];
-            return "<span class='entity-updated'>".trim($updated). "</span>";
-        } else {
-            $smarty->trigger_error("t: missing 'updated' parameter");
         }
     }
 
