@@ -123,6 +123,14 @@ while ($doZones->fetch() && $row_zones = $doZones->toArray()) {
 	}
 
 	$aZones[$row_zones['zoneid']]['active'] = $aZoneAds['count_active'] > 0;
+
+    if (!empty($row_zones['updated'])) {
+        $oUpdatedDate = new Date($row_zones['updated']);
+        $oTz = $oUpdatedDate->tz;
+        $oUpdatedDate->setTZbyID('UTC');
+        $oUpdatedDate->convertTZ($oTz);
+        $aZones[$row_zones['zoneid']]['updated'] = $oUpdatedDate->format("$date_format $time_format");
+    }
 }
 
 $oTpl->assign('affiliateId', $affiliateid);
