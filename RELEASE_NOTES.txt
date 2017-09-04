@@ -50,6 +50,10 @@ What's New in Revive Adserver 4.1.0
 
      * Targeting Channels are now Delivery Rule Sets.
 
+ * Added support for ordering advertisers, campaigns, banners, websites and
+   zones by the date each was last updated on the main index page for each, to
+   make finding recently updated entities easier in large installations.
+
  Bug Fixes
  ---------
 
