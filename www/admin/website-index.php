@@ -17,6 +17,8 @@ require_once '../../init.php';
 require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/www/admin/config.php';
 
+require_once RV_PATH . '/lib/RV/Admin/DateTimeFormat.php';
+
 // Register input variables
 phpAds_registerGlobalUnslashed('hideinactive', 'listorder', 'orderdirection',
                                'pubid', 'url', 'formId');
@@ -67,11 +69,7 @@ $aWebsitesZones = $dalAffiliates->getWebsitesAndZonesByAgencyId();
 if (!empty($aWebsitesZones)) {
     foreach ($aWebsitesZones as $wkey => $aWebsite) {
         if (!empty($aWebsite['updated'])) {
-            $oUpdatedDate = new Date($aWebsite['updated']);
-            $oTz = $oUpdatedDate->tz;
-            $oUpdatedDate->setTZbyID('UTC');
-            $oUpdatedDate->convertTZ($oTz);
-            $aWebsitesZones[$wkey]['updated'] = $oUpdatedDate->format("$date_format $time_format");
+            $aWebsitesZones[$wkey]['updated'] = RV_Admin_DateTimeFormat::formatUTCDateTime($aWebsite['updated']);
         }
     }
 }

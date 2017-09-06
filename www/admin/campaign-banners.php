@@ -22,9 +22,10 @@ require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
 require_once MAX_PATH . '/lib/max/other/html.php';
 require_once MAX_PATH . '/lib/OX/Translation.php';
 
+require_once RV_PATH . '/lib/RV/Admin/DateTimeFormat.php';
+
 // Register input variables
 phpAds_registerGlobal('hideinactive', 'listorder', 'orderdirection');
-
 
 // Security check
 OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER);
@@ -190,11 +191,7 @@ while ($doBanners->fetch() && $row = $doBanners->toArray()) {
     $banners[$row['bannerid']]['preview'] = $bannerCode;
 
     if (!empty($row['updated'])) {
-        $oUpdatedDate = new Date($row['updated']);
-        $oTz = $oUpdatedDate->tz;
-        $oUpdatedDate->setTZbyID('UTC');
-        $oUpdatedDate->convertTZ($oTz);
-        $banners[$row['bannerid']]['updated'] = $oUpdatedDate->format("$date_format $time_format");
+        $banners[$row['bannerid']]['updated'] = RV_Admin_DateTimeFormat::formatUTCDateTime($row['updated']);
     }
 }
 
